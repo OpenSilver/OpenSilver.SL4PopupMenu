@@ -1,0 +1,230 @@
+﻿<navigation:Page xmlns:my="clr-namespace:SL4PopupMenu;assembly=SL4PopupMenu" 
+				xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+				xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" 
+				xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" 
+				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+				xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+				xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows" 
+				xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+				xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+				xmlns:System="clr-namespace:System;assembly=mscorlib"
+				x:Class="SL4PopupMenuDemo.Demo2"
+				xmlns:local="clr-namespace:SL4PopupMenuDemo"
+	d:DesignHeight="480" d:DesignWidth="860" mc:Ignorable="d">
+
+	<UserControl.Resources>
+		<!--<local:TestCommand x:Key="testCommand" />-->
+
+		<LinearGradientBrush x:Key="VerticalListBoxBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+			<LinearGradientBrush.RelativeTransform>
+				<CompositeTransform Rotation="-90"/>
+			</LinearGradientBrush.RelativeTransform>
+			<GradientStop Color="#FF513C9D" Offset="0"/>
+			<GradientStop Color="#FF33236C" Offset="1"/>
+		</LinearGradientBrush>
+
+		<Storyboard x:Name="stbShowHomepageLink">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="txbHomepage">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+				<SplineDoubleKeyFrame KeyTime="0:0:2" Value="22" KeySpline="0.55,0,0.45,1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" Storyboard.TargetName="txbHomepage">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+				<SplineDoubleKeyFrame KeyTime="0:0:2" Value="1080" KeySpline="0.55,0,0.45,1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</UserControl.Resources>
+
+	<Grid x:Name="LayoutRoot">
+
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
+			<StackPanel Margin="3">
+				<TextBlock x:Name="txbMessage" Text=" " Margin="2" HorizontalAlignment="Center" Foreground="DarkSlateBlue" />
+
+				<Grid ShowGridLines="True">
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition MinHeight="200" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition Width="150" />
+					</Grid.ColumnDefinitions>
+
+					<TextBlock Grid.Column="0" Grid.Row="1" Text="Left Click " HorizontalAlignment="Right" VerticalAlignment="Center"/>
+					<TextBlock Grid.Column="0" Grid.Row="2" Text="Hover " HorizontalAlignment="Right" VerticalAlignment="Center"/>
+					<TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" Text="Right Click/Left Click " VerticalAlignment="Center" />
+					<TextBlock Grid.Column="1" Text="ListBox" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					<TextBlock Grid.Column="2" Text="TextBlock/TextBox" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+					<ListBox Grid.Row="1" Grid.Column="1" Margin="10" Style="{StaticResource HorizontalToolbarStyle1}"
+							 ItemContainerStyle="{StaticResource HorizontalToolbarItemContainerStyle1}"							 
+							 ItemsPanel="{StaticResource HorizontalToolbarItemPanelStyle1}"
+							 ToolTipService.ToolTip="Press Ctrl+Alt+M to open this menu and use the cursor keys for navigation." >
+						<ListBoxItem x:Name="TopLeftClickMenu1" Content="TopMenu1" Tag="lcpmMain_1"/>
+						<ListBoxItem x:Name="TopLeftClickMenu2" Content="TopMenu2"/>
+					</ListBox>
+
+					<ListBox Grid.Row="2" Grid.Column="1" Margin="10" Style="{StaticResource HorizontalToolbarStyle1}" 
+							 ItemContainerStyle="{StaticResource HorizontalToolbarItemContainerStyle1}"							 
+							 ItemsPanel="{StaticResource HorizontalToolbarItemPanelStyle1}">
+						<ListBoxItem x:Name="TopHoverMenu1" Content="TopMenu1"/>
+						<ListBoxItem x:Name="TopHoverMenu2" Content="TopMenu2"/>
+					</ListBox>
+
+					<Border BorderBrush="SlateBlue" BorderThickness="1" Height="23" Grid.Row="1" Grid.Column="2" Margin="10,12,10,11" CornerRadius="3" HorizontalAlignment="Left" >
+						<TextBlock x:Name="leftClickTextBlock1" Text=" Menu1 " Tag="lcpmMain_2" Foreground="DarkSlateBlue" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" />
+					</Border>
+
+					<Border BorderBrush="SlateBlue" BorderThickness="1" Grid.Column="2" Height="23" Grid.Row="2" Grid.RowSpan="1" CornerRadius="3" Margin="10" HorizontalAlignment="Left" >
+						<TextBlock x:Name="HoverTextBlock2" Text=" Menu2 " Foreground="DarkSlateBlue" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" />
+					</Border>
+
+					<ListBox x:Name="lstDemo" Grid.Row="4" Grid.Column="1" Margin="10" 
+						Style="{StaticResource HorizontalToolbarStyle1}" 
+						ItemContainerStyle="{StaticResource VerticalMenuItemContainerStyle1}">
+						<ListBoxItem x:Name="Item1" Content="Item 1" />
+						<ListBoxItem x:Name="Item2" Content="Item 2" />
+						<ListBoxItem x:Name="Item3" Content="Item 3" />
+						<ListBoxItem x:Name="Item4" Content="Item 4"/>
+						<ListBoxItem x:Name="Item5" Content="Item 5"/>
+						<ListBoxItem x:Name="PinnedHoverMenuParent" Content="Item 6 - Pinnable Menu"/>
+					</ListBox>
+
+					<TextBox x:Name="txtSampleText" Text="Select some text here and right click." 
+							 Background="Transparent" BorderThickness="1" Foreground="DarkSlateBlue" Grid.Column="2" Grid.Row="3"
+							 TextWrapping="Wrap" Margin="10" AcceptsReturn="True" />
+				</Grid>
+				<my:PopupMenu HoverElementSelector="PinnedHoverMenuParent" IsAutoPinnable="True">
+					<ItemsControl>
+						<TextBlock Foreground="#AABB0000">This menu can be pinned and  <LineBreak/>unpinned by clicking on its parent</TextBlock>
+					</ItemsControl>
+				</my:PopupMenu>
+
+			</StackPanel>
+
+			<StackPanel Name="Menu2" Margin="3">
+				<my:PopupMenu HoverElementSelector="TopHoverMenu2" LeftClickElementSelector="TopLeftClickMenu2" Style="{StaticResource PopupMenuWithBorderMaskStyle1}">
+					<ListBox x:Name="lsToptMenu2" Style="{StaticResource MenuStyle1}" ItemContainerStyle="{StaticResource VerticalMenuItemContainerStyle1}">
+						<my:PopupMenuItem Header="Menu1" />
+						<my:PopupMenuSeparator />
+						<my:PopupMenuItem Header="Deep Menu" ImageRightSource="../images/arrow.png">
+							<my:PopupMenu>
+								<ListBox Style="{StaticResource MenuStyle1}" ItemContainerStyle="{StaticResource VerticalMenuItemContainerStyle1}">
+									<my:PopupMenuItem Header="SubMenu1"/>
+									<my:PopupMenuSeparator />
+									<my:PopupMenuItem Header="SubMenu2" ImageRightSource="../images/arrow.png">
+										<my:PopupMenu>
+											<ListBox Style="{StaticResource MenuStyle1}" ItemContainerStyle="{StaticResource VerticalMenuItemContainerStyle1}">
+												<my:PopupMenuItem Header="SubMenu1" ImageRightSource="../images/arrow.png">
+													<my:PopupMenu>
+														<ListBox Style="{StaticResource MenuStyle1}">
+															<my:PopupMenuItem Header="Boundary Reached" Foreground="#AABB0000" />
+														</ListBox>
+													</my:PopupMenu>
+												</my:PopupMenuItem>
+											</ListBox>
+										</my:PopupMenu>
+									</my:PopupMenuItem>
+									<my:PopupMenuItem Header="SubMenu3" />
+									<my:PopupMenuItem Header="SubMenu4" />
+								</ListBox>
+							</my:PopupMenu>
+						</my:PopupMenuItem>
+						<my:PopupMenuItem Header="Themed Menu" ImageRightSource="../images/arrow.png">
+							<my:PopupMenu KeepSelection="True">
+								<!--Note that as yet theme controls are only effective when placed inside the menu itself.-->
+								<toolkit:Theme Name="thmDynamicTheme" ThemeUri="/System.Windows.Controls.Theming.rainierpurple;component/Theme.xaml" >
+									<ListBox Name="lstThemes" SelectedIndex="0" Foreground="DarkSlateBlue">
+										<my:PopupMenuItem Header="RainierPurple" Click="Theme_Click" CloseOnClick="False"/>
+										<my:PopupMenuItem Header="RainierOrange" Click="Theme_Click" CloseOnClick="False"/>
+										<my:PopupMenuSeparator/>
+										<my:PopupMenuItem Header="ExpressionDark" Click="Theme_Click" CloseOnClick="False"/>
+										<my:PopupMenuItem Header="ExpressionLight" Click="Theme_Click" CloseOnClick="False"/>
+										<my:PopupMenuSeparator/>
+										<my:PopupMenuItem Header="WhistlerBlue" Click="Theme_Click" CloseOnClick="False"/>
+										<my:PopupMenuItem Header="BureauBlue" Click="Theme_Click" CloseOnClick="False"/>
+										<my:PopupMenuCheckBox Header="BubbleCreme" Click="Theme_Click" CloseOnClick="False"/>
+									</ListBox>
+								</toolkit:Theme>
+							</my:PopupMenu>
+						</my:PopupMenuItem>
+						<my:PopupMenuItem Header="Menu2" />
+						<my:PopupMenuItem Header="Hidden Menu" IsVisible="False"/>
+						<my:PopupMenuItem Header="Menu3" />
+					</ListBox>
+				</my:PopupMenu>
+			</StackPanel>
+
+			<StackPanel Margin="3">
+				<!--Note the use of the dot at the beginning of the value for LeftClickElementSelector. The remaining characters 
+				are in fact a regex expression telling the menu to target any element whose tag starts with "lcpmMain_".-->
+				<my:PopupMenu x:Name="pmMain"
+					HoverElementSelector="TopHoverMenu1,HoverTextBlock2"
+					LeftClickElementSelector=".lcpmMain_.*"
+					RightClickElementSelector="lstDemo,txtSampleText" 
+					Shortcut="Ctrl+Alt+M" ShortcutTargetElementName="TopLeftClickMenu1"
+					Style="{StaticResource PopupMenuWithBorderMaskStyle1}" >
+
+					<!--The ItemsControl can also be placed inside a Grid or any other FrameworkElement within the menu-->
+					<!--In this case the PopupMenu will use the first ItemsControl(lstPopupMenu in our case) it finds in its content-->
+					<Grid x:Name="grdPopupMenu" >
+
+						<HyperlinkButton x:Name="lnkHomepage" NavigateUri="http://sl4popupmenu.codeplex.com" VerticalAlignment="top" HorizontalAlignment="left"
+							Padding="0" Margin="0,27,0,0" Canvas.ZIndex="1" Style="{StaticResource MenuBaseStyle}">
+							<HyperlinkButton.Projection>
+								<PlaneProjection RotationZ="-90" CenterOfRotationX="0" CenterOfRotationY="0" GlobalOffsetX="1.2"/>
+							</HyperlinkButton.Projection>
+							<Border BorderThickness="1,0,1,1" BorderBrush="{StaticResource VerticalListBoxBorderBrush}" >
+								<TextBlock x:Name="txbHomepage" Text=" Visit Homepage " Height="22" Foreground="#FF54860E" FontWeight="SemiBold" Padding="2" FontStyle="Italic">
+									<TextBlock.Projection>
+										<PlaneProjection/>
+									</TextBlock.Projection>
+								</TextBlock>
+							</Border>
+						</HyperlinkButton>
+
+						<!--See code behind where more items are added to this listbox -->
+						<ListBox x:Name="lstPopupMenu" Style="{StaticResource MenuStyle1}" ItemContainerStyle="{StaticResource VerticalMenuItemContainerStyle1}">
+							<my:PopupMenuItem x:Name="pmiCut" Header="Cut" Tag="ClipboardMenuTag" Click="MenuItem_Clicked" ImageSource="../images/Cut.png" />
+							<my:PopupMenuItem x:Name="pmiCopy" Header="Copy" Tag="ClipboardMenuTag" Click="MenuItem_Clicked" ImageSource="../images/Copy.png" />
+							<!--This implementation provides control over the header content-->
+							<my:PopupMenuItem x:Name="pmiPaste" Click="MenuItem_Clicked" ImageSource="../images/Paste.png">
+								<TextBlock Text="Paste" Tag="ClipboardMenuTag"/>
+							</my:PopupMenuItem >
+							<my:PopupMenuSeparator Tag="ClipboardMenuTag"/>
+							<my:PopupMenuItem x:Name="pmiOrientableMenu" Header="Orientable Menu" CloseOnClick="False" ImageSource="../images/4_direction.png" ImageRightSource="../images/arrow.png" />
+							<my:PopupMenuSeparator/>
+						</ListBox>
+					</Grid>
+				</my:PopupMenu>
+
+				<!--Will be added as a child menu for pmMain from code behind-->
+				<ListBox x:Name="lstOrientationMenu" ItemContainerStyle="{StaticResource VerticalMenuItemContainerStyle1}" Style="{StaticResource MenuStyle1}">
+					<my:PopupMenuItem Name="MenuTop" Header="^Top" ImageSource="../images/pan2.png"
+									  Tag="OrientationTop" Click="MenuItem_Clicked" ShortcutKeyModifier1="Control" ShortcutKeyModifier2="Alt" ShortcutKey="W"/>
+					<my:PopupMenuItem Name="MenuRight" Header="^Right" ImageSource="../images/pan3.png"
+									  Tag="OrientationRight" Click="MenuItem_Clicked" Shortcut="Ctrl+Alt+D" />
+					<my:PopupMenuItem Name="MenuLeft" Header="^Left" ImageSource="../images/pan1.png"
+									  Tag="OrientationLeft" Click="MenuItem_Clicked" Shortcut="Ctrl+Alt+A" />
+					<my:PopupMenuItem Name="MenuBottom" Header="^Bottom" ImageSource="../images/pan4.png" 
+									  Tag="OrientationBottom" Click="MenuItem_Clicked" Shortcut="Ctrl+Alt+S" />
+				</ListBox>
+
+				<!--Will be added as a child item for pmMain from code behind-->
+				<StackPanel x:Name="stpTransparency">
+					<TextBlock Text="Transparency" />
+					<Slider Value="{Binding Background.Opacity, ElementName=lstPopupMenu, Mode=TwoWay}"
+					  Minimum ="0" Maximum = "1" Foreground="#FFDD1F1F" SmallChange="0.01" Margin="-4,0,-11,0"/>
+				</StackPanel>
+			</StackPanel>
+		</StackPanel>
+
+	</Grid>
+</navigation:Page>

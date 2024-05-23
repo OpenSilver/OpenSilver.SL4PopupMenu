@@ -1,0 +1,121 @@
+﻿<navigation:Page x:Class="SL4PopupMenuDemo.Demo1"
+				 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				 xmlns:my="clr-namespace:SL4PopupMenu;assembly=SL4PopupMenu"
+				 xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+				 xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+				 xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+				 d:DesignHeight="800"
+				 d:DesignWidth="600"
+				 mc:Ignorable="d">
+	<navigation:Page.Resources>
+		<ResourceDictionary>
+			<sdk:Calendar x:Key="cal"/>
+			<ItemsPanelTemplate x:Key="contentWrapper">
+				<toolkit:WrapPanel />
+			</ItemsPanelTemplate>
+		</ResourceDictionary>
+	</navigation:Page.Resources>
+
+	<Grid x:Name="LayoutRoot">
+		<sdk:TabControl Margin="20">
+			<!--Sample 1: This tab is implemented from code behind.-->
+			<sdk:TabItem Header="Code Based" Name="tbiSample1">
+
+			</sdk:TabItem>
+			<!--Sample 2: An attempt to implement the menu in code behind using pure XAML-->
+			<sdk:TabItem Header="XAML Based">
+				<StackPanel>
+					<sdk:DataGrid Name="dataGrid1" ItemsSource="1234567"/>
+					<my:PopupMenu Name="pmTest" RightClickElementSelector="dataGrid1" InheritDataContext="True">
+						<ListBox>
+							<my:PopupMenuItem Command="{Binding DeleteCommand_ToBeImplemented}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Delete row "/>
+									<TextBlock Text="{Binding}"/>
+								</StackPanel>
+							</my:PopupMenuItem>
+							<my:PopupMenuSeparator />
+							<my:PopupMenuItem Header="Get Time" ImageRightSource="../images/arrow.png">
+								<my:PopupMenu>
+									<ListBox>
+										<my:PopupMenuItem Header="{Binding Source={StaticResource cal}, Path=DisplayDate.Now, StringFormat=\{0:HH:mm:ss\}, BindsDirectlyToSource=True}"/>
+									</ListBox>
+								</my:PopupMenu>
+							</my:PopupMenuItem>
+							<my:PopupMenuSeparator />
+							<my:PopupMenuItem>
+								<HyperlinkButton NavigateUri="/Default.aspx#/Views/Demo2.xaml">Demo2</HyperlinkButton>
+							</my:PopupMenuItem>
+						</ListBox>
+					</my:PopupMenu>
+				</StackPanel>
+			</sdk:TabItem>
+
+			<!--Sample 3: Binding, data templates and trigger elements.-->
+			<sdk:TabItem Header="Binding">
+				<ScrollViewer>
+					<ItemsControl Name="lstItems1" ItemsSource="0123456789" ItemsPanel="{StaticResource contentWrapper}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<StackPanel>
+									<Button x:Name="btnYear" Content="{Binding}" FontSize="150" Margin="10" Cursor="Hand"/>
+									<my:PopupMenu HoverElementSelector="btnYear" >
+										<ListBox>
+											<my:PopupMenuItem Header="{Binding}" VerticalSeparatorVisibility="Collapsed"/>
+										</ListBox>
+									</my:PopupMenu>
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</ScrollViewer>
+			</sdk:TabItem>
+
+			<!--Sample 4: Single menu ItemsControl using on the fly binding, data templates and trigger elements.-->
+			<sdk:TabItem Header="Binding(single instance)">
+				<ScrollViewer>
+					<StackPanel>
+						<ItemsControl Name="lstItems2" ItemsSource="0123456789" ItemsPanel="{StaticResource contentWrapper}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Button x:Name="btnYear" Content="{Binding}" FontSize="150" Margin="10" Cursor="Hand"/>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+						<!--Targeting the generated buttons using a regex expression.-->
+						<my:PopupMenu HoverElementSelector="btnYear.*" InheritDataContext="True" >
+							<ListBox>
+								<my:PopupMenuItem Header="{Binding}" VerticalSeparatorVisibility="Collapsed"/>
+							</ListBox>
+						</my:PopupMenu>
+					</StackPanel>
+				</ScrollViewer>
+			</sdk:TabItem>
+
+			<!--Sample 5: Single menu using on the fly binding, selectable items, data templates and trigger elements.-->
+			<sdk:TabItem Header="Binding(single instance with ListBox)">
+				<Grid>
+					<ListBox Name="lstItems3" ItemsSource="0123456789" ItemsPanel="{StaticResource contentWrapper}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<Button x:Name="btnYear" Content="{Binding}" FontSize="150" Margin="10" Cursor="Hand"/>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<!--Targeting the ListBox control. The hovered items will automatically be selected.-->
+					<my:PopupMenu HoverElementSelector="lstItems3" InheritDataContext="True">
+						<ListBox>
+							<my:PopupMenuItem Header="{Binding}" VerticalSeparatorVisibility="Collapsed"/>
+						</ListBox>
+					</my:PopupMenu>
+				</Grid>
+			</sdk:TabItem>
+		</sdk:TabControl>
+
+		<my:PopupMenuItem Name="pmShortcutTest" IsVisible="False" Shortcut="ctrl+alt+A" />
+	</Grid>
+</navigation:Page>
+

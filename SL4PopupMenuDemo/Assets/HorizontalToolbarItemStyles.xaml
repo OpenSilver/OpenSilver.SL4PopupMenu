@@ -1,0 +1,100 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" >
+
+	<Style x:Key="HorizontalToolbarStyle1" TargetType="ListBox">
+		<Setter Property="Background" Value="CornflowerBlue" />
+		<Setter Property="Foreground" Value="DarkSlateBlue" />
+	</Style>
+
+	<ItemsPanelTemplate x:Key="HorizontalToolbarItemPanelStyle1">
+		<StackPanel Orientation="Horizontal"/>
+	</ItemsPanelTemplate>
+
+	<Style x:Key="HorizontalToolbarItemMouseOverStyle1" TargetType="Border">
+		<Setter Property="Background" Value="#FFF9F9D8"/>
+		<Setter Property="BorderBrush" Value="DarkSlateBlue"/>
+		<Setter Property="BorderThickness" Value="1,1,1,0" />
+		<Setter Property="CornerRadius" Value="3,3,0,0" />
+	</Style>
+
+	<Style x:Key="HorizontalToolbarSelectedStyle1" TargetType="Border" BasedOn="{StaticResource HorizontalToolbarItemMouseOverStyle1}">
+		<Setter Property="Background">
+			<Setter.Value>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+					<GradientStop Color="#FFC7E5EF" Offset="0"/>
+					<GradientStop Color="#FF77A8B8" Offset="1"/>
+				</LinearGradientBrush>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="HorizontalToolbarItemContainerStyle1" TargetType="ListBoxItem">
+		<Setter Property="Padding" Value="3"/>
+		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		<Setter Property="VerticalContentAlignment" Value="Top"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="TabNavigation" Value="Local"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ListBoxItem">
+					<Grid Background="{TemplateBinding Background}" Margin="0,0,0,0">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualStateGroup.Transitions>
+									<VisualTransition GeneratedDuration="0:0:0.15"/>
+								</VisualStateGroup.Transitions>
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+									<Storyboard>
+										<DoubleAnimation Duration="0" To=".35" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="fillColor"/>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<DoubleAnimation Duration="0" To=".55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="contentPresenter"/>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="SelectionStates">
+								<VisualStateGroup.Transitions>
+									<VisualTransition GeneratedDuration="0:0:0.2"/>
+								</VisualStateGroup.Transitions>
+								<VisualState x:Name="Unselected"/>
+								<VisualState x:Name="Selected">
+									<Storyboard>
+										<DoubleAnimation Duration="0:0:0.5" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="fillColor2"/>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Visibility" Storyboard.TargetName="FocusVisualElement">
+											<DiscreteObjectKeyFrame KeyTime="0">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Visible</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Unfocused"/>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Border x:Name="fillColor" Style="{StaticResource HorizontalToolbarSelectedStyle1}" IsHitTestVisible="False" Opacity="0"/>
+						<Border x:Name="fillColor2" Style="{StaticResource HorizontalToolbarItemMouseOverStyle1}" IsHitTestVisible="False" Opacity="0">
+							<Border.Effect>
+								<DropShadowEffect Opacity=".5" Color="#FF6E6E6E"/>
+							</Border.Effect>
+						</Border>
+						<ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"/>
+						<Rectangle x:Name="FocusVisualElement" Canvas.ZIndex="-1" RadiusY="1" RadiusX="1" Stroke="#FF6DBDD1" StrokeThickness="1" Visibility="Collapsed"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

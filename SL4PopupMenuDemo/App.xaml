@@ -1,0 +1,19 @@
+﻿<Application x:Class="SL4PopupMenuDemo.App"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:my="clr-namespace:SL4PopupMenu;assembly=SL4PopupMenu"
+			 xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+			 >
+
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="Assets/MenuStyles.xaml" />
+				<ResourceDictionary Source="Assets/HorizontalToolbarItemStyles.xaml" />
+				<ResourceDictionary Source="Assets/VerticalMenuItemStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
+	
+
+</Application>

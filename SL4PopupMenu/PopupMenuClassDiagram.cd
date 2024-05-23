@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SL4PopupMenu.PopupMenu">
+    <Position X="5.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QAAgACAAAAAICAgAAAADFBASABAAACAACAAQAMABIAI=</HashCode>
+      <FileName>PopupMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL4PopupMenu.PopupMenuBase">
+    <Position X="3" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>RQEtBAEmgRQAcggQBCBAoAoOzAUEkgLjA/QAQESwGI4=</HashCode>
+      <FileName>PopupMenuBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL4PopupMenu.PopupMenuItem">
+    <Position X="8" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>MEpqAAQKMYBAHA1IOAPBB6wjJQMBItUFAAQA8EEAAgA=</HashCode>
+      <FileName>PopupMenuItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL4PopupMenu.MenuTriggerRelationship">
+    <Position X="0.5" Y="14.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>gAgAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>PopupMenuManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL4PopupMenu.PopupMenuManager">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAggAAIQQCAABAAAAAAAAJAUhAAAAAEAAAAQAgAAAAQ=</HashCode>
+      <FileName>PopupMenuManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL4PopupMenu.PopupMenuSeparator">
+    <Position X="10.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PopupMenuSeparator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL4PopupMenu.PopupMenuUtils">
+    <Position X="0.5" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IgIAgMCAAEBhAhFAQAAAEAARgQAAAgAAAAAAAQAAAAA=</HashCode>
+      <FileName>PopupMenuUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL4PopupMenu.PopupMenuCheckBox">
+    <Position X="10.75" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACECAAACBAQACAAIAAAAAiAAAAAEAAACBAAAAAAAA=</HashCode>
+      <FileName>PopupMenuCheckBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="SL4PopupMenu.TriggerTypes">
+    <Position X="0.5" Y="12.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAIAAAAAAA=</HashCode>
+      <FileName>PopupMenuBase.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SL4PopupMenu.MenuOrientationTypes">
+    <Position X="0.5" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAIAAAACACAAAAAAAg=</HashCode>
+      <FileName>PopupMenuBase.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

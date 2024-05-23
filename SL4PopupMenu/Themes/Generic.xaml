@@ -1,0 +1,117 @@
+﻿<ResourceDictionary
+	xmlns:controls="clr-namespace:SL4PopupMenu"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<!--<Style TargetType="controls:PopupMenuBase">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="controls:PopupMenuBase">
+					
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>-->
+
+	<Style TargetType="controls:PopupMenuItem">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="controls:PopupMenuItem">
+					<Grid x:Name="RootGrid" 
+						  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						  Style="{TemplateBinding Style}"
+						  Background="{TemplateBinding Background}"
+						  Margin="{TemplateBinding Margin}"
+						  Effect="{TemplateBinding Effect}"
+						  Opacity="{TemplateBinding Opacity}">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal">
+									<Storyboard>
+										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ImageLeft"/>
+										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentLeft"/>
+										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Presenter"/>
+										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ImageRight"/>
+										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentRight"/>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<DoubleAnimation Duration="0" To="0.55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ImageLeft"/>
+										<DoubleAnimation Duration="0" To="0.55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentLeft"/>
+										<DoubleAnimation Duration="0" To="0.55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Presenter"/>
+										<DoubleAnimation Duration="0" To="0.55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ImageRight"/>
+										<DoubleAnimation Duration="0" To="0.55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentRight"/>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Unfocused">
+								</VisualState>
+								<VisualState x:Name="Focused">
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<!--<Rectangle x:Name="ColumnLeft" Fill="Black" Opacity=".04" Margin="-3,-3,0,-3"/>-->
+							<Image x:Name="ImageLeft"
+								Margin="0,-3,3,0"
+								MinWidth="{TemplateBinding ImageWidth}"
+								MaxWidth="{TemplateBinding ImageWidth}"
+								Source="{TemplateBinding ImageSource}"
+								Visibility="{Binding ImageVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+								Opacity="{Binding ImageOpacity, RelativeSource={RelativeSource TemplatedParent}}"
+								Effect="{Binding ImageEffect, RelativeSource={RelativeSource TemplatedParent}}" />
+							<ContentPresenter x:Name="ContentLeft"
+								Content="{TemplateBinding ContentLeft}" />
+							<Rectangle x:Name="VerticalSeparator"
+								Grid.Column="1" Margin="0,-3,3,-3"
+								Width ="{TemplateBinding VerticalSeparatorWidth}"
+								Fill="{TemplateBinding VerticalSeparatorFill}"
+								Visibility="{Binding VerticalSeparatorVisibility, RelativeSource={RelativeSource TemplatedParent}}"/>
+							<Rectangle x:Name="HorizontalSeparator"
+								Grid.Column="2"
+								VerticalAlignment="Bottom"
+								Visibility="{Binding HorizontalSeparatorVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+								Margin="-3, 0, -3, 0"
+								Fill = "{TemplateBinding HorizontalSeparatorBrush}"
+								Height="{TemplateBinding HorizontalSeparatorHeight}"/>
+							<ContentPresenter x:Name="Presenter" Grid.Column="2"
+								Content="{TemplateBinding Header}"
+								ContentTemplate="{TemplateBinding HeaderTemplate}">
+							</ContentPresenter>
+							<Image x:Name="ImageRight" Grid.Column="3"
+								Margin="0,-3,-3,0"
+								MinWidth ="{TemplateBinding ImageRightWidth}"
+								MaxWidth="{TemplateBinding ImageRightWidth}"
+								Source="{TemplateBinding ImageRightSource}"/>
+							<ContentPresenter x:Name="ContentRight" Grid.Column="3"
+								Content="{TemplateBinding ContentRight}"
+								ToolTipService.ToolTip="{TemplateBinding Tooltip}"/>
+							<!--For some reason the ItemsPresenter below can create an error when the template is edited in Blend.
+								To get around this issue please temporarily comment it(restarting Blend itself might also be required).-->
+							<ItemsPresenter x:Name="ItemsPresenter" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3"/>
+
+						</Grid>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
