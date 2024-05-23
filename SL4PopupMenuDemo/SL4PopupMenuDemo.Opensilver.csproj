@@ -1,0 +1,85 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<DefineSilverlight>true</DefineSilverlight>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<AssemblyName>SL4PopupMenuDemo</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="OpenSilver" Version="2.2.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="App.xaml.cs">
+			<DependentUpon>App.xaml</DependentUpon>
+		</Compile>
+		<Compile Include="Views\Demo1.xaml.cs">
+			<DependentUpon>Demo1.xaml</DependentUpon>
+		</Compile>
+		<Compile Include="Views\Demo2.xaml.cs">
+			<DependentUpon>Demo2.xaml</DependentUpon>
+		</Compile>
+		<Compile Include="MainPage.xaml.cs">
+			<DependentUpon>MainPage.xaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<ApplicationDefinition Include="App.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</ApplicationDefinition>
+		<Page Include="Assets\VerticalMenuItemStyles.xaml">
+			<Generator>MSBuild:Compile</Generator>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Include="Assets\MenuStyles.xaml">
+			<Generator>MSBuild:Compile</Generator>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Include="Assets\HorizontalToolbarItemStyles.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Include="Views\Demo1.xaml">
+			<Generator>MSBuild:Compile</Generator>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Include="Views\Demo2.xaml">
+			<Generator>MSBuild:Compile</Generator>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Include="MainPage.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="images\arrow.png" />
+		<Resource Include="images\delete.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Properties\" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SL4PopupMenu\SL4PopupMenu.Opensilver.csproj">
+			<Project>{1B8E87EA-54C4-43F0-84A7-ACA4E90A3475}</Project>
+			<Name>SL4PopupMenu</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="images\Copy.png" />
+		<Resource Include="images\Cut.png" />
+		<Resource Include="images\IsModal.png" />
+		<Resource Include="images\IsPinned.png" />
+		<Resource Include="images\pan3.png" />
+		<Resource Include="images\Paste.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="images\4_direction.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="images\pan1.png" />
+		<Resource Include="images\pan2.png" />
+		<Resource Include="images\pan4.png" />
+	</ItemGroup>	
+</Project>
