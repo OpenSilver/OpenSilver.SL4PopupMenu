@@ -1,144 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3B90F57F-5C88-4E59-8356-CA11709C3683}</ProjectGuid>
-    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SL4PopupMenuDemo.Web</RootNamespace>
-    <AssemblyName>SL4PopupMenuDemo.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <SilverlightApplicationList>{417A6CC3-33B8-4ECC-A67A-3951091C840D}|..\SL4PopupMenuDemo\SL4PopupMenuDemo.csproj|ClientBin|False</SilverlightApplicationList>
-    <UseIISExpress>true</UseIISExpress>
-    <JSLintSkip>\Silverlight.js</JSLintSkip>
+    <TargetFramework>net7.0</TargetFramework>
+    <NoXamlPreprocessor>True</NoXamlPreprocessor>
+    <OpenSilverType>6</OpenSilverType>
+    <PublishTrimmed>true</PublishTrimmed>
+    <!-- Uncomment to enable AOT compilation when publishing -->
+    <!--<RunAOTCompilation>true</RunAOTCompilation>-->
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" PrivateAssets="all" />
+    <PackageReference Include="OpenSilver" Version="2.2.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <DisableImplicitNamespaceImports>True</DisableImplicitNamespaceImports>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
+    <ProjectReference Include="..\SL4PopupMenuDemo\SL4PopupMenuDemo.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\SL4PopupMenuDemo.xap" />
-    <Content Include="Demo.htm" />
-    <Content Include="Silverlight.js" />
-    <Content Include="Default.aspx" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.ComponentModel.DataAnnotations.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Data.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Input.Toolkit.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Navigation.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Theming.BubbleCreme.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Theming.BureauBlue.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Theming.ExpressionLight.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Theming.RainierOrange.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Theming.RainierPurple.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Theming.Toolkit.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Theming.WhistlerBlue.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Toolkit.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Data.Input.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Data.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientBin\System.Windows.Controls.Theming.ExpressionDark.zip" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
-        <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>52890</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:52890/SL4PopupMenuDemo</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-        </WebProjectProperties>
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

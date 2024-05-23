@@ -1279,8 +1279,11 @@ namespace SL4PopupMenu
 
 							if (BorderMaskFill != null && triggerElement != null)
 								AdjustBorderMaskPosition(orientationPos, triggerElement);
-
+#if OPENSILVER
+							Storyboard sbOpen = OpenAnimation ?? PopupMenuUtils.CreateStoryBoard(0, OpenDuration, OverlayCanvas, "Opacity", 1, null);
+#else
 							Storyboard sbOpen = OpenAnimation ?? PopupMenuUtils.CreateStoryBoard(0, OpenDuration, OverlayCanvas, "UIElement.Opacity", 1, null);
+#endif
 							sbOpen.Begin();
 							sbOpen.Completed += delegate
 							{
@@ -1475,8 +1478,12 @@ namespace SL4PopupMenu
 			if (Closing != null)
 				Closing(this, PopupMenuManager.TopOverlayMouseEventArgs);
 
+#if !OPENSILVER
 			Storyboard sbClose = CloseAnimation ?? PopupMenuUtils.CreateStoryBoard(0, transitionTime, OverlayCanvas, "UIElement.Opacity", 0, null);
-			sbClose.Begin();
+#else
+			Storyboard sbClose = CloseAnimation ?? PopupMenuUtils.CreateStoryBoard(0, transitionTime, OverlayCanvas, "Opacity", 0, null);
+#endif
+            sbClose.Begin();
 			sbClose.Completed += delegate
 			{
 				OverlayPopup.IsOpen = false;

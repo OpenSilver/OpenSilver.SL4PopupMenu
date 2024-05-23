@@ -1,13 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D7EF34B0-B9E6-4ECE-ABDD-4675F08AE3EE}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SL4PopupMenuDemo", "SL4PopupMenuDemo\SL4PopupMenuDemo.csproj", "{417A6CC3-33B8-4ECC-A67A-3951091C840D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SL4PopupMenu", "SL4PopupMenu\SL4PopupMenu.csproj", "{1B8E87EA-54C4-43F0-84A7-ACA4E90A3475}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SL4PopupMenuDemo.Web", "SL4PopupMenuDemo.Web\SL4PopupMenuDemo.Web.csproj", "{3B90F57F-5C88-4E59-8356-CA11709C3683}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D7EF34B0-B9E6-4ECE-ABDD-4675F08AE3EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
