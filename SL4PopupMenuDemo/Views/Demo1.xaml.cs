@@ -25,12 +25,17 @@ namespace SL4PopupMenuDemo
 
 			// Generate a sample menu on a DataGrid.
 			GenerateDynamicDemo();
+#if OPENSILVER
+			dataGrid1.ItemsSource = "1234567".ToCharArray();
+            lstItems1.ItemsSource = "0123456789".ToCharArray();
+            lstItems2.ItemsSource = "0123456789".ToCharArray();
+            lstItems3.ItemsSource = "0123456789".ToCharArray();
+#endif
+            // In this example no menu items are generated before the menu is open.
+            //GenerateFullyDynamicDemo(); 
+        }
 
-			// In this example no menu items are generated before the menu is open.
-			//GenerateFullyDynamicDemo(); 
-		}
-
-		private void GenerateDynamicDemo()
+        private void GenerateDynamicDemo()
 		{
 			// Add a DataGrid control with some sample data to the layout root
 			var data = new ObservableCollection<string>("Item 1,Item 2,Item 3,Item 4,Item 6,Item 7,Item 8".Split(','));
