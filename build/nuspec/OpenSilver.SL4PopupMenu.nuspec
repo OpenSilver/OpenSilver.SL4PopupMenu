@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>OpenSilver.SL4PopupMenu</id>
+    <version>$PackageVersion$</version>
+    <title>SL4PopupMenu for OpenSilver</title>
+    <authors>Userware</authors>
+    <description>SL4PopupMenu for Silverlight compiled with OpenSilver</description>
+    <projectUrl>https://github.com/OpenSilver/OpenSilver.SL4PopupMenu</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright (c) 2024, Userware. All rights reserved.</copyright>
+    <dependencies>
+      <group targetFramework="netstandard2.0">
+        <dependency id="OpenSilver" version="$OpenSilverDependencyVersion$" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+	<file src="../../SL4PopupMenu/bin/$Configuration$/netstandard2.0/SL4PopupMenu.dll" target="lib/netstandard2.0/SL4PopupMenu.dll" />    
+  </files>
+</package>
