@@ -12,25 +12,6 @@
 *
 \*====================================================================================*/
 
-//------------------------------
-// CHECK BROWSER COMPATIBILITY
-//------------------------------
-
-(function () {
-    const userAgentLowercase = navigator.userAgent.toLowerCase();
-
-    window.ANDROID_VERSION = (userAgentLowercase.indexOf('android') != -1) ? parseInt(userAgentLowercase.split('android')[1]) : false;
-    window.FIREFOX_VERSION = ((index = userAgentLowercase.indexOf('firefox')) != -1) ? parseInt(userAgentLowercase.substring(index + 8)) : false;
-
-    // Current version does not support Android < 4:
-    if (window.ANDROID_VERSION && window.ANDROID_VERSION < 4)
-        alert("This version of Android is not supported yet. Please use Android 4.x (or newer), Internet Explorer 11 (or newer), Chrome 35 (or newer), Firefox 27 (or newer), Safari 8 (or newer), Safari Mobile iOS 8 (or newer), or Opera 24 (or newer). More browsers will be supported in the future.");
-})();
-
-//------------------------------
-// DEFINE OTHER SCRIPTS
-//------------------------------
-
 document.getAppParams = function (element) {
     if (element) {
         return JSON.stringify(
@@ -133,9 +114,7 @@ document.createTextBlock = function (id, parentId) {
     if (!parent) return;
 
     const element = document._createLayout('div', id, false);
-    element.style.overflow = 'hidden';
-    element.style.textAlign = 'start';
-    element.style.whiteSpace = 'pre';
+    element.classList.add('opensilver-textblock');
 
     parent.appendChild(element);
 };
@@ -225,6 +204,7 @@ document.createText = function (tagName, id, parentId) {
 
     const textElement = document.createElement(tagName);
     textElement.setAttribute('id', id);
+    textElement.classList.add('opensilver-textelement');
 
     parent.appendChild(textElement);
 };
@@ -335,24 +315,6 @@ document.getBBox = function (svgElement) {
         return JSON.stringify({ X: bbox.x, Y: bbox.y, Width: bbox.width, Height: bbox.height, });
     }
     return '{}';
-};
-
-document.set2dContextProperty = function (id, propertyName, propertyValue) {
-    const element = document.getElementById(id);
-    if (!element || element.tagName !== 'CANVAS')
-        return;
-
-    element.getContext('2d')[propertyName] = propertyValue;
-};
-
-document.invoke2dContextMethod = function (id, methodName, args) {
-    const element = document.getElementById(id);
-    if (!element || element.tagName !== 'CANVAS')
-        return undefined;
-    return CanvasRenderingContext2D.prototype[methodName].apply(element.getContext('2d'),
-        args.split(',')
-            .map(Function.prototype.call, String.prototype.trim)
-            .filter(i => i.length > 0));
 };
 
 document.setCSS = function (id, cssPropertyName, value) {
@@ -861,8 +823,9 @@ document.attachMeasurementService = function (owner) {
             htmlMeasurer.style.fontWeight = element.style.fontWeight;
             htmlMeasurer.style.fontFamily = element.style.fontFamily;
             htmlMeasurer.style.fontStyle = element.style.fontStyle;
-            htmlMeasurer.style.lineHeight = element.style.lineHeight;
             htmlMeasurer.style.letterSpacing = element.style.letterSpacing;
+            htmlMeasurer.style.lineHeight = element.style.lineHeight;
+            htmlMeasurer.style.setProperty('--line-stacking-strategy', element.style.getPropertyValue('--line-stacking-strategy'));
 
             htmlMeasurer.style.whiteSpace = whiteSpace;
             htmlMeasurer.style.overflowWrap = overflowWrap;
@@ -875,13 +838,14 @@ document.attachMeasurementService = function (owner) {
 
             return size;
         },
-        measureTextBlock: function (innerHTML, whiteSpace, overflowWrap, lineHeight, maxWidth) {
+        measureTextBlock: function (innerHTML, whiteSpace, overflowWrap, lineHeight, lineStackingStrategy, maxWidth) {
             htmlMeasurer.innerHTML = innerHTML;
             htmlMeasurer.style.fontSize = '';
             htmlMeasurer.style.fontWeight = '';
             htmlMeasurer.style.fontFamily = '';
             htmlMeasurer.style.fontStyle = '';
             htmlMeasurer.style.lineHeight = lineHeight;
+            htmlMeasurer.style.setProperty('--line-stacking-strategy', lineStackingStrategy);
             htmlMeasurer.style.letterSpacing = '';
             htmlMeasurer.style.whiteSpace = whiteSpace;
             htmlMeasurer.style.overflowWrap = overflowWrap;
@@ -905,10 +869,10 @@ document.attachMeasurementService = function (owner) {
     };
 };
 
-document.measureTextBlock = function (measurerId, innerHTML, whiteSpace, overflowWrap, lineHeight, maxWidth) {
+document.measureTextBlock = function (measurerId, innerHTML, whiteSpace, overflowWrap, lineHeight, lineStackingStrategy, maxWidth) {
     const owner = document.getElementById(measurerId);
     if (owner && owner._measurementService) {
-        return owner._measurementService.measureTextBlock(innerHTML, whiteSpace, overflowWrap, lineHeight, maxWidth);
+        return owner._measurementService.measureTextBlock(innerHTML, whiteSpace, overflowWrap, lineHeight, lineStackingStrategy, maxWidth);
     }
     return '0|0';
 };
@@ -930,15 +894,6 @@ document.measureBaseline = function (measurerId, ...fonts) {
         return owner._measurementService.measureBaseline(fonts);
     }
     return 0.0;
-};
-
-document.setContentString = function (id, text, removeTextWrapping) {
-    var el = document.getElementById(id);
-    if (el) {
-        el.innerText = text;
-        if (removeTextWrapping)
-            el.style.whiteSpace = "nowrap";
-    };
 };
 
 window.ViewInteropErrors = function () {
@@ -1216,6 +1171,63 @@ document.createTextviewManager = function (inputCallback, scrollCallback) {
                     return false;
             }
         },
+        handleKeyDownFromSimulator: function (view) {
+            if (!view) return;
+            view.addEventListener('keydown', function (e) {
+                const acceptsReturn = this.getAttribute('data-acceptsreturn');
+                var maxLength = this.getAttribute('maxlength');
+                const acceptsTab = this.getAttribute('data-acceptstab');
+
+                if (maxLength == null) maxLength = 0;
+                if (e.keyCode == 13) {
+                    if (acceptsReturn != "true") {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                const isAddingTabulation = e.keyCode == 9 && acceptsTab == 'true';
+                if ((isAddingTabulation || e.keyCode == 13 || e.keyCode == 32 || e.keyCode > 47) && maxLength != 0) {
+                    let text = this.value;
+                    if (!acceptsReturn) {
+                        text = text.replace('\n', '').replace('\r', '');
+                    }
+
+                    let correctionDueToNewLines = 0;
+                    if (e.keyCode == 13) {
+                        ++correctionDueToNewLines; //because adding a new line takes 2 characters instead of 1.
+                    }
+                    if (text.length + correctionDueToNewLines >= maxLength) {
+                        if (!window.getSelection().toString()) {
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                }
+
+                if (isAddingTabulation) {
+                    //we need to add '\t' where the cursor is, prevent the event (which would change the focus) and dispatch the event for the text changed:
+                    let sel, range;
+                    if (window.getSelection) {
+                        sel = window.getSelection();
+                        if (sel.rangeCount) {
+                            range = sel.getRangeAt(0);
+                            range.deleteContents();
+                            range.insertNode(document.createTextNode('\t'));
+                            sel.collapseToEnd();
+                            range.collapse(false); //for IE
+                        }
+                    } else if (document.selection && document.selection.createRange) {
+                        range = document.selection.createRange();
+                        range.text = '\t';
+                        document.selection.collapseToEnd();
+                    }
+
+                    e.preventDefault();
+                    return false;
+                }
+            }, false);
+        },
         getSelectionStart: function (view) {
             if (view) {
                 return view.selectionStart;
@@ -1248,6 +1260,434 @@ document.createTextviewManager = function (inputCallback, scrollCallback) {
             if (view) {
                 view.setRangeText(text, view.selectionStart, view.selectionEnd, 'end');
             }
+        },
+    };
+};
+
+document.createRichTextViewManager = function (selectionChangedCallback, contentChangedCallback, scrollCallback) {
+    if (document.richTextViewManager) return;
+
+    const ACCEPTS_TAB_ATTR = 'data-acceptstab';
+    const ACCEPTS_RETURN_ATTR = 'data-acceptsreturn';
+    const Options = createOptions();
+
+    function createOptions() {
+        const Parchment = Quill.import('parchment');
+        const Keyboard = Quill.import('modules/keyboard');
+
+        // Essential formats
+        const Block = Quill.import('blots/block');
+        const Break = Quill.import('blots/break');
+        const Container = Quill.import('blots/container');
+        const Cursor = Quill.import('blots/cursor');
+        const Inline = Quill.import('blots/inline');
+        const Scroll = Quill.import('blots/scroll');
+        const Text = Quill.import('blots/text');
+
+        // TextElement properties
+        const Spacing = new Parchment.StyleAttributor('spacing', 'letter-spacing', {
+            scope: Parchment.Scope.INLINE_ATTRIBUTE
+        });
+        const Font = new Parchment.StyleAttributor('font', 'font-family', {
+            scope: Parchment.Scope.INLINE_ATTRIBUTE
+        });
+        const Size = new Parchment.StyleAttributor('size', 'font-size', {
+            scope: Parchment.Scope.INLINE_ATTRIBUTE
+        });
+        const Style = new Parchment.StyleAttributor('style', 'font-style', {
+            scope: Parchment.Scope.INLINE_ATTRIBUTE,
+            whitelist: ['normal', 'oblique', 'italic']
+        });
+        const Weight = new Parchment.StyleAttributor('weight', 'font-weight', {
+            scope: Parchment.Scope.INLINE_ATTRIBUTE,
+            whitelist: ['100', '200', '300', '350', '400', '500', '600', '700', '800', '900', '950']
+        });
+        const Color = new Parchment.StyleAttributor('color', 'color', {
+            scope: Parchment.Scope.INLINE_ATTRIBUTE
+        });
+        const Decoration = new Parchment.StyleAttributor('decoration', 'text-decoration', {
+            scope: Parchment.Scope.INLINE_ATTRIBUTE,
+            whitelist: ['underline', 'line-through', 'overline']
+        });
+
+        // Block properties
+        const Height = new Parchment.StyleAttributor('height', 'line-height', {
+            scope: Parchment.Scope.BLOCK
+        });
+        const Align = new Parchment.StyleAttributor('align', 'text-align', {
+            scope: Parchment.Scope.BLOCK,
+            whitelist: ['start', 'center', 'end', 'justify']
+        });
+
+        const registry = new Parchment.Registry();
+        registry.register(
+            Scroll,
+            Block,
+            Break,
+            Container,
+            Cursor,
+            Inline,
+            Text,
+            Spacing,
+            Font,
+            Size,
+            Style,
+            Weight,
+            Color,
+            Decoration,
+            Height,
+            Align
+        );
+
+        return {
+            registry,
+            modules: {
+                keyboard: {
+                    bindings: {
+                        tab: {
+                            key: 'Tab',
+                            handler: function (t, e) {
+                                if (acceptsTab(this.quill.container)) {
+                                    return Keyboard.DEFAULTS.bindings['tab'].handler.apply(this, [t, e]);
+                                }
+                                return false;
+                            },
+                        },
+                        'remove tab': {
+                            key: 'Tab',
+                            shiftKey: true,
+                            handler: function (t, e) {
+                                if (acceptsTab(this.quill.container)) {
+                                    return Keyboard.DEFAULTS.bindings['remove tab'].handler.apply(this, [t, e]);
+                                }
+                                return false;
+                            },
+                        },
+                        enter: {
+                            key: 'Enter',
+                            shiftKey: null,
+                            handler: function (t, e) {
+                                return acceptsReturn(this.quill.container);
+                            },
+                        },
+                        bold: {
+                            key: 'b',
+                            ctrlKey: true,
+                            handler: function (t, e) {
+                                this.quill.format('weight', this.quill.getFormat().weight > 600 ? '' : '700');
+                            },
+                        },
+                        italic: {
+                            key: 'i',
+                            ctrlKey: true,
+                            handler: function (t, e) {
+                                this.quill.format('style', this.quill.getFormat().style === 'italic' ? '' : 'italic');
+                            },
+                        },
+                        underline: {
+                            key: 'u',
+                            ctrlKey: true,
+                            handler: function (t, e) {
+                                this.quill.format('decoration', this.quill.getFormat().decoration === 'underline' ? '' : 'underline');
+                            },
+                        },
+                    }
+                }
+            }
+        };
+    }
+
+    function acceptsTab(view) { return view.getAttribute(ACCEPTS_TAB_ATTR) === 'true'; }
+
+    function acceptsReturn(view) { return view.getAttribute(ACCEPTS_RETURN_ATTR) === 'true'; }
+
+    function isNewLineChar(c) { return c === '\n' || c === '\r'; };
+
+    function getLength(ql) { return Math.max(0, ql.getLength() - 1); }
+
+    function getSelectionLength(ql) {
+        const selection = ql.getSelection();
+        if (selection) {
+            return selection.length;
+        }
+        return 0;
+    }
+
+    function getSelectionDirection() {
+        const selection = document.getSelection();
+        const position = selection.anchorNode.compareDocumentPosition(selection.focusNode);
+        if (position === 0) {
+            return selection.anchorOffset > selection.focusOffset ? 'backward' : 'forward';
+        } else if (position === Node.DOCUMENT_POSITION_PRECEDING) {
+            return 'backward';
+        } else {
+            return 'forward';
+        }
+    }
+
+    function getCaretPosition(ql) {
+        const selection = ql.getSelection();
+        if (selection) {
+            if (selection.length === 0) {
+                return selection.index;
+            }
+            return getSelectionDirection() === 'forward' ? selection.index + selection.length : selection.index;
+        }
+        return 0;
+    }
+
+    function navigateInDirection(ql, e) {
+        if (!e.shiftKey && !e.ctrlKey && getSelectionLength(ql) > 0) return true;
+
+        switch (e.key) {
+            case 'ArrowUp':
+                return getCaretPosition(ql) > 0;
+            case 'ArrowDown':
+                return getCaretPosition(ql) < getLength(ql);
+            case 'ArrowLeft':
+                return window.getComputedStyle(ql.container).direction === 'ltr' ?
+                    (getCaretPosition(ql) > 0) :
+                    (getCaretPosition(ql) < getLength(ql));
+            case 'ArrowRight':
+                return window.getComputedStyle(ql.container).direction === 'ltr' ?
+                    (getCaretPosition(ql) < getLength(ql)) :
+                    (getCaretPosition(ql) > 0);
+            default:
+                return false;
+        }
+    }
+
+    function navigateByPage(ql, e) {
+        if (e.ctrlKey) return false;
+
+        if (e.key === 'PageDown') {
+            if (getCaretPosition(ql) < getLength(ql) || (!e.shiftKey && getSelectionLength(ql) > 0)) {
+                return true;
+            }
+        } else {
+            if (getCaretPosition(ql) > 0 || (!e.shiftKey && getSelectionLength(ql) > 0)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function navigateToStart(ql, e) {
+        if (!e.shiftKey && getSelectionLength(ql) > 0) {
+            return true;
+        }
+
+        const caretIndex = getCaretPosition(ql);
+        return caretIndex > 0 && (e.ctrlKey || !isNewLineChar(ql.getText(caretIndex - 1, 1)));
+    }
+
+    function navigateToEnd(ql, e) {
+        if (!e.shiftKey && getSelectionLength(ql) > 0) {
+            return true;
+        }
+
+        const caretIndex = getCaretPosition(ql);
+        return caretIndex < getLength(ql) && (e.ctrlKey || !isNewLineChar(ql.getText(caretIndex, 1)));
+    }
+
+    document.richTextViewManager = {
+        createView: function (id, parentId) {
+            const parent = document.getElementById(parentId);
+            if (!parent) return;
+
+            const view = document._createLayout('div', id, true);
+            view.addEventListener('scroll', function (e) { scrollCallback(this.id); });
+            view.addEventListener('focus', function (e) {
+                setTimeout(function (thisArg) {
+                    if (document.activeElement === thisArg) {
+                        const ql = Quill.find(thisArg);
+                        if (ql) {
+                            ql.focus();
+                        }
+                    }
+                }, 0, this);
+            });
+
+            const ql = new Quill(view, Options);
+
+            // we can't use the 'selection-change' event because it does not fire when the user types in the editor
+            ql.on('editor-change', function (eventName, ...args) {
+                if (eventName === 'selection-change') {
+                    const range = args[0];
+                    if (range) {
+                        selectionChangedCallback(id, range.index, range.length);
+                    } else {
+                        selectionChangedCallback(id, 0, 0);
+                    }
+                }
+            });
+            ql.on('text-change', function (delta, oldDelta, source) {
+                if (source === Quill.sources.USER) {
+                    contentChangedCallback(id);
+                }
+            });
+
+            parent.appendChild(view);
+        },
+        setAcceptsTab: function (id, value) {
+            const view = document.getElementById(id);
+            if (view) {
+                view.setAttribute(ACCEPTS_TAB_ATTR, value);
+            }
+        },
+        setAcceptsReturn: function (id, value) {
+            const view = document.getElementById(id);
+            if (view) {
+                view.setAttribute(ACCEPTS_RETURN_ATTR, value);
+            }
+        },
+        measureView: function (id, maxWidth, maxHeight) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return '0|0';
+
+            const root = ql.root;
+
+            root.style.width = 'max-content';
+            root.style.height = 'auto';
+            if (maxWidth >= 0) {
+                root.style.maxWidth = maxWidth + 'px';
+            }
+            if (maxHeight >= 0) {
+                root.style.maxHeight = maxHeight + 'px';
+            }
+
+            const size = root.scrollWidth + '|' + root.scrollHeight;
+
+            root.style.width = '';
+            root.style.height = '';
+            root.style.maxWidth = '';
+            root.style.maxHeight = '';
+
+            return size;
+        },
+        onKeyDownNative: function (view, e) {
+            const ql = Quill.find(view);
+            if (!ql) return false;
+
+            switch (e.key.toLowerCase()) {
+                case 'arrowleft':
+                case 'arrowright':
+                case 'arrowdown':
+                case 'arrowup':
+                    return navigateInDirection(ql, e);
+                case 'pagedown':
+                case 'pageup':
+                    return navigateByPage(ql, e);
+                case 'home':
+                    return navigateToStart(ql, e);
+                case 'end':
+                    return navigateToEnd(ql, e);
+                case 'delete':
+                    return getCaretPosition(ql) < getLength(ql) || getSelectionLength(ql) > 0;
+                case 'backspace':
+                    return getCaretPosition(ql) > 0 || getSelectionLength(ql) > 0;
+                case 'c':
+                case 'x':
+                    return e.ctrlKey && getSelectionLength(ql) > 0;
+                case 'a':
+                    return e.ctrlKey && getSelectionLength(ql) < getLength(ql);
+                case 'v':
+                case 'y':
+                case 'z':
+                    return e.ctrlKey;
+                case 'tab':
+                    return acceptsTab(view);
+                default:
+                    return false;
+            }
+        },
+        getContentLength: function (id) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return 0;
+
+            return ql.getLength();
+        },
+        getSelectedText: function (id) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return;
+
+            const selection = ql.getSelection();
+            if (selection) {
+                return ql.getText(selection);
+            }
+            return '';
+        },
+        setSelectedText: function (id, text) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return;
+
+            const selection = ql.getSelection();
+            if (selection) {
+                if (text.length > 0) {
+                    if (selection.length > 0) {
+                        ql.deleteText(selection.index, selection.length, Quill.sources.SILENT);
+                    }
+                    ql.insertText(selection.index, text, Quill.sources.API);
+                } else if (selection.length > 0) {
+                    ql.deleteText(selection.index, selection.length, Quill.sources.API);
+                }
+            } else if (text.length > 0) {
+                ql.insertText(0, text, Quill.sources.API);
+            }
+        },
+        select: function (id, start, length) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return;
+
+            ql.setSelection(start, length, Quill.sources.API);
+        },
+        selectAll: function (id) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return;
+
+            ql.setSelection(0, ql.getLength(), Quill.sources.API);
+        },
+        getContents: function (id, start, length) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return '[]';
+
+            const contents = ql.getContents(start, length);
+            return JSON.stringify(contents.ops);
+        },
+        setContents: function (id, delta) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return;
+
+            ql.setContents(delta, Quill.sources.API);
+        },
+        updateContents: function (id, delta) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return;
+
+            ql.updateContents(delta, Quill.sources.API);
+        },
+        enable: function (id, enable) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return;
+
+            ql.enable(enable);
+        },
+        format: function (id, property, value) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return;
+
+            ql.format(property, value, Quill.sources.API);
+        },
+        getFormat: function (id, property) {
+            const ql = Quill.find(document.getElementById(id));
+            if (!ql) return null;
+
+            const format = ql.getFormat()[property];
+            if (typeof format === 'string') {
+                return format;
+            }
+            return null;
         },
     };
 };
