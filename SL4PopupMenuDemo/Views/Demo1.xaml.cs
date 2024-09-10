@@ -56,8 +56,12 @@ namespace SL4PopupMenuDemo
 			// Add the menu items.
 			pmMain.AddItem("Delete row", delegate { data.RemoveAt(pmMain.GetClickedElement<DataGridRow>().GetIndex()); });
 			pmMain.AddSeparator();
+#if OPENSILVER
+			pmMain.AddSubMenu(pmTimeNow, "Get Time ", "/SL4PopupMenuDemo;component/images/arrow.png", null, null, false, null); // Attach the submenu pmTimeSub.
+#else
 			pmMain.AddSubMenu(pmTimeNow, "Get Time ", "images/arrow.png", null, null, false, null); // Attach the submenu pmTimeSub.
-			pmMain.AddSeparator();
+#endif
+            pmMain.AddSeparator();
 			pmMain.AddItem("Demo2", delegate { App.Current.Host.NavigationState = "/Views/Demo2.xaml"; });
 			// Set dataGrid1 as the trigger element.
 			pmMain.AddTrigger(TriggerTypes.RightClick, dataGrid1);

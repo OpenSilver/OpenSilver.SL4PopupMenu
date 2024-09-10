@@ -32,9 +32,14 @@ namespace SL4PopupMenuDemo
 			IsThreeState = true, // Changes the value changes from true to null and then to false when clicked.
 			CloseOnClick = false,
 			IsChecked = false,
-			ImageCheckedSource = new BitmapImage(new Uri("images/IsModal.png", UriKind.Relative)),
-			ImageIntermediateSource = new BitmapImage(new Uri("images/IsPinned.png", UriKind.Relative))
-		};
+#if OEPNSILVER
+			ImageCheckedSource = new BitmapImage(new Uri("/SL4PopupMenuDemo;component/images/IsModal.png", UriKind.Relative)),
+			ImageIntermediateSource = new BitmapImage(new Uri("/SL4PopupMenuDemo;component/images/IsPinned.png", UriKind.Relative))
+#else
+            ImageCheckedSource = new BitmapImage(new Uri("images/IsModal.png", UriKind.Relative)),
+            ImageIntermediateSource = new BitmapImage(new Uri("images/IsPinned.png", UriKind.Relative))
+#endif
+        };
 
 		//Storyboard stbSpinner;
 
@@ -57,8 +62,12 @@ namespace SL4PopupMenuDemo
 		private void GeneratePopupMenu()
 		{
 			// Menu items can be added in several ways as seen below:
+#if OPENSILVER
+			pmMain.InsertItem(0, "/SL4PopupMenuDemo;component/images/delete.png", _txbDeleteItem, null, Menu_RemoveItem); // Menu used to delete ListBoxItems.
+#else
 			pmMain.InsertItem(0, "images/delete.png", _txbDeleteItem, null, Menu_RemoveItem); // Menu used to delete ListBoxItems.
-			pmMain.InsertSeparator(1, "DeleteItemTag");
+#endif
+            pmMain.InsertSeparator(1, "DeleteItemTag");
 			pmMain.AddItem(null, null, null, null, "TriggerTextMenu", MenuItem_Clicked); // Menu used to display the clicked item type.
 			pmMain.AddSeparator();
 			pmMain.AddItem(_pmcbToggleMenuState);
