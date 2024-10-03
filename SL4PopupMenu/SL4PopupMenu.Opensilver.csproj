@@ -1,32 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<EnableDefaultItems>false</EnableDefaultItems>
-		<DefineSilverlight>true</DefineSilverlight>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<AssemblyName>SL4PopupMenu</AssemblyName>
-	</PropertyGroup>
-	<ItemGroup>
-		<PackageReference Include="OpenSilver" Version="3.0.1" />		
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Include="MenuTriggerRecord.cs" />
-		<Compile Include="PopupMenuCheckBox.cs" />
-		<Compile Include="PopupMenu.cs" />
-		<Compile Include="PopupMenuBase.cs" />
-		<Compile Include="PopupMenuItem.cs" />
-		<Compile Include="PopupMenuManager.cs" />
-		<Compile Include="PopupMenuSeparator.cs" />
-		<Compile Include="PopupMenuUtils.cs" />
-		<Compile Include="Properties\AssemblyInfo.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<Page Include="Themes\Generic.xaml">
-			<Generator>MSBuild:Compile</Generator>
-			<SubType>Designer</SubType>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="PopupMenuClassDiagram.cd" />
-	</ItemGroup>	
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <DefineSilverlight>true</DefineSilverlight>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyName>SL4PopupMenu</AssemblyName>
+    <UseOpenSilver>true</UseOpenSilver>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="MenuTriggerRecord.cs" />
+    <Compile Include="PopupMenuCheckBox.cs" />
+    <Compile Include="PopupMenu.cs" />
+    <Compile Include="PopupMenuBase.cs" />
+    <Compile Include="PopupMenuItem.cs" />
+    <Compile Include="PopupMenuManager.cs" />
+    <Compile Include="PopupMenuSeparator.cs" />
+    <Compile Include="PopupMenuUtils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="PopupMenuClassDiagram.cd" />
+  </ItemGroup>
+
 </Project>

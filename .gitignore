@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+SL4PopupMenuDemo.Browser/wwwroot/libs/
+SL4PopupMenuDemo.Browser/wwwroot/resources/

@@ -16,6 +16,6 @@
     </dependencies>
   </metadata>
   <files>
-	<file src="../../SL4PopupMenu/bin/$Configuration$/netstandard2.0/SL4PopupMenu.dll" target="lib/netstandard2.0/SL4PopupMenu.dll" />    
+    <file src="../../SL4PopupMenu/bin/$Configuration$/netstandard2.0/SL4PopupMenu.dll" target="lib/netstandard2.0/SL4PopupMenu.dll" />
   </files>
 </package>
