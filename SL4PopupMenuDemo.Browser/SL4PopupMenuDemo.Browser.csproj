@@ -1,18 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <NoXamlPreprocessor>True</NoXamlPreprocessor>
-    <OpenSilverType>6</OpenSilverType>
+    <TargetFramework>net10.0</TargetFramework>
+    <OpenSilverType>7</OpenSilverType>
     <PublishTrimmed>true</PublishTrimmed>
-    <UseOpenSilver>true</UseOpenSilver>
-    <!-- Uncomment to enable AOT compilation when publishing -->
-    <!--<RunAOTCompilation>true</RunAOTCompilation>-->
+    <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
+    <PackageReference Include="OpenSilver.WebAssembly" Version="[$(OpenSilverVersion)]" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup>

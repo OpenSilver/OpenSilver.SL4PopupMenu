@@ -6,8 +6,11 @@
     <DefineSilverlight>true</DefineSilverlight>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>SL4PopupMenu</AssemblyName>
-    <UseOpenSilver>true</UseOpenSilver>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenSilver" Version="[$(OpenSilverVersion)]" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="MenuTriggerRecord.cs" />

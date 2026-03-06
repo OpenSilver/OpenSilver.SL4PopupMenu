@@ -1,8 +1,7 @@
-﻿using DotNetForHtml5;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.JSInterop;
-using SL4PopupMenuDemo.Browser.Interop;
+using OpenSilver.WebAssembly;
+using System.Threading.Tasks;
 
 namespace SL4PopupMenuDemo.Browser.Pages
 {
@@ -13,14 +12,10 @@ namespace SL4PopupMenuDemo.Browser.Pages
         {
         }
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            base.OnInitialized();
-            Cshtml5Initializer.Initialize(new UnmarshalledJavaScriptExecutionHandler(JSRuntime));
-            Program.RunApplication();
+            await base.OnInitializedAsync();
+            await Runner.RunApplicationAsync<SL4PopupMenuDemo.App>();
         }
-
-        [Inject]
-        private IJSRuntime JSRuntime { get; set; }
     }
 }
